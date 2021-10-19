@@ -1,0 +1,53 @@
+﻿@model Catalogue.Models.Produit
+@{ 
+    ViewData["title"] = "Saisie D'un Produit";
+}
+<br />
+<div class="container col-md-8 col-md-offset-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading"> Saisie D'un Produit </div>
+
+        <div class="panel-body">
+            <form method="post" asp-action="SaveProduit" asp-controller="Produit">
+                @*En Principe chaque Groupe de Controle(Label et input) doit etre placer dan un <div> avec une calss form-group  *@
+                <div class="form-group">
+                    <label class="control-label">Désignation</label>
+                    <input type="text" name="Designation" class="form-control" />
+                    @* pour l'affichage d'un message d'erreur on peut utiliser soit un span <span asp-validation-for="Nom_Attribut" class="text-danger"></span> ou bien utiliser les Html helper *@
+
+                    @* Nous allons appliquer les Html Helpers en ce qui concerne les Messages d'erreur et pour cela nous somme dans l'obligation d'utiliser les expression lambda avec les html helpers *@
+
+                    @Html.ValidationMessageFor(p => p.Designation, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Prix:</label>
+                    <input type="number" name="Prix" class="form-control" />
+
+                    @Html.ValidationMessageFor(p => p.Prix, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Quantité:</label>
+                    <input type="number" name="Quantite" class="form-control" />
+                    @Html.ValidationMessageFor(p => p.Quantite, "", new { @class = "text-danger " })
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Catégorie:</label>
+                    <select name="CategorieID" class="form-control">
+                        @foreach (var c in ViewBag.categories)
+                        {
+                            <option value="@c.CategorieID">@c.NomCategorie</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                    <div>
+                        <a asp-action="Index"class="btn btn-success"><i class="fas fa-sign-out-alt"></i> &nbsp;Back to List</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

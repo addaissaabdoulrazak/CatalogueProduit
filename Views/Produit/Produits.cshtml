@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Catalogue.Models.Produit>
+<p></p>
+<div class="container text-right col-8">
+    <a asp-action="FormulaireProduit" class="btn btn-primary mb-5"><i class="fas fa-plus"></i> &nbsp; Nouveau Produit </a>
+</div>
+<div class="col-md-10 col-xl-12" > 
+    @* Ajout d'un Pannel *@
+    <div class="panel panel-primary">
+        <div class="panel panel panel-heading">Liste des produits</div>
+        <div class="panel-body">
+            <div class="container mb-2">
+                <form method="get" asp-action="Index">
+                    <label>Mot clé: </label>
+                    <input  type="text" name="motCle"/>
+                    <button class="btn btn-primary">Recherche</button>
+
+                </form>
+
+            </div>
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Designation</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Categorie</th>
+                    <th>Action : Ajouter les Action Ajouter modifier et supprimer pour finaliser cette parti</th>
+                </tr>
+                @{
+                    foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>@p.ProduitID</td>
+                            <td>@p.Designation</td>
+                            <td>@p.Prix</td>
+                            <td>@p.Quantite</td>
+                            <td>@p.Categorie.NomCategorie</td>
+                        </tr>
+                    }
+                }
+            </table>  
+
+            <div>
+                <ul class="nav nav-pills"><!--utilisation du bootstrap pour que les elements soit verticale et devient comment des menue de Navigation -->
+                    @for (int i= 0;i < ViewBag.TotalPages;i++)
+                    {
+                        //nous allons colorie la position de la pge Courante
+                        string className = "";
+                        @if(i== ViewBag.currentPage)
+                        {
+                         //active est une calsse Bootstrap qui nous permetra de colorier notre indice
+                            className = "active";
+                        }
+                        <li class="@className">
+      @* il faut que sa soit un lien hyperText pour que si nous cliquons sur le lien nous puissons être redirigé vers une Page>>    *@
+      @* la balise <a></a> represente un lien pour rappel ce que nous allons faire est que si nous cliquons sur le liens faudrait que nous soyons redirigé vers une Page *@
+                            <a asp-action="Index" asp-route-page="@i" asp-route-motCle="@ViewBag.motCle"> @i</a>
+@* Partie cncernat la recherche : il faut de même s'assurer que a chaque fois que nous cliquons sur le lien nous transmetrons le mot clé au niveau de
+    la bar du navigateur pour que le controlleur frontal puis recuperer la parametre et l'injecte au niveau de l'action parametré puis un traitement est appliquer a ce paramètre  *@
+
+                        </li>
+
+                     }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
